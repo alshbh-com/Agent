@@ -108,6 +108,8 @@ export type Database = {
       }
       agent_daily_closings: {
         Row: {
+          closed_by: string | null
+          closed_by_username: string | null
           closing_date: string
           created_at: string
           delivery_agent_id: string | null
@@ -118,6 +120,8 @@ export type Database = {
           total_returns: number | null
         }
         Insert: {
+          closed_by?: string | null
+          closed_by_username?: string | null
           closing_date: string
           created_at?: string
           delivery_agent_id?: string | null
@@ -128,6 +132,8 @@ export type Database = {
           total_returns?: number | null
         }
         Update: {
+          closed_by?: string | null
+          closed_by_username?: string | null
           closing_date?: string
           created_at?: string
           delivery_agent_id?: string | null
@@ -413,6 +419,7 @@ export type Database = {
           is_active: boolean
           name: string
           phone: string | null
+          serial_number: string | null
           total_owed: number
           total_paid: number
           updated_at: string
@@ -423,6 +430,7 @@ export type Database = {
           is_active?: boolean
           name: string
           phone?: string | null
+          serial_number?: string | null
           total_owed?: number
           total_paid?: number
           updated_at?: string
@@ -433,6 +441,7 @@ export type Database = {
           is_active?: boolean
           name?: string
           phone?: string | null
+          serial_number?: string | null
           total_owed?: number
           total_paid?: number
           updated_at?: string
@@ -467,6 +476,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          is_active: boolean
           logo_url: string | null
           name: string
           updated_at: string
@@ -475,6 +485,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          is_active?: boolean
           logo_url?: string | null
           name: string
           updated_at?: string
@@ -483,6 +494,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          is_active?: boolean
           logo_url?: string | null
           name?: string
           updated_at?: string
@@ -551,6 +563,7 @@ export type Database = {
           discount: number
           governorate_id: string | null
           id: string
+          modified_amount: number | null
           notes: string | null
           order_details: string | null
           order_number: number | null
@@ -568,6 +581,7 @@ export type Database = {
           discount?: number
           governorate_id?: string | null
           id?: string
+          modified_amount?: number | null
           notes?: string | null
           order_details?: string | null
           order_number?: number | null
@@ -585,6 +599,7 @@ export type Database = {
           discount?: number
           governorate_id?: string | null
           id?: string
+          modified_amount?: number | null
           notes?: string | null
           order_details?: string | null
           order_number?: number | null
@@ -887,6 +902,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      delete_old_activity_logs: { Args: never; Returns: undefined }
       reset_order_sequence: { Args: never; Returns: undefined }
     }
     Enums: {
