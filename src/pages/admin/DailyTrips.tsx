@@ -30,7 +30,6 @@ const DailyTrips = () => {
 
   // Close daily form
   const [selectedDailyId, setSelectedDailyId] = useState<string>("");
-  const [totalCollected, setTotalCollected] = useState("");
   const [totalReturns, setTotalReturns] = useState("");
 
   const { data: agents } = useQuery({
