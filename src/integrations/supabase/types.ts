@@ -106,6 +106,54 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_dailies: {
+        Row: {
+          closed_at: string | null
+          created_at: string
+          daily_amount: number
+          daily_date: string
+          delivery_agent_id: string | null
+          id: string
+          notes: string | null
+          prepaid_amount: number
+          remaining_amount: number
+          status: string
+          total_collected: number
+          total_returns: number
+          updated_at: string
+        }
+        Insert: {
+          closed_at?: string | null
+          created_at?: string
+          daily_amount?: number
+          daily_date: string
+          delivery_agent_id?: string | null
+          id?: string
+          notes?: string | null
+          prepaid_amount?: number
+          remaining_amount?: number
+          status?: string
+          total_collected?: number
+          total_returns?: number
+          updated_at?: string
+        }
+        Update: {
+          closed_at?: string | null
+          created_at?: string
+          daily_amount?: number
+          daily_date?: string
+          delivery_agent_id?: string | null
+          id?: string
+          notes?: string | null
+          prepaid_amount?: number
+          remaining_amount?: number
+          status?: string
+          total_collected?: number
+          total_returns?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       agent_daily_closings: {
         Row: {
           closed_by: string | null
