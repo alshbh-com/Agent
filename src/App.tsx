@@ -27,6 +27,7 @@ import Treasury from "./pages/admin/Treasury";
 import Cashbox from "./pages/admin/Cashbox";
 import Appearance from "./pages/admin/Appearance";
 import Offices from "./pages/admin/Offices";
+import DailyTrips from "./pages/admin/DailyTrips";
 import BottomNav from "./components/BottomNav";
 import TopNav from "./components/TopNav";
 import NotFound from "./pages/NotFound";
