@@ -254,24 +254,20 @@ const DailyTrips = () => {
               </Select>
             </div>
             {selectedDaily && (
-              <div className="text-sm bg-accent/40 p-3 rounded">
-                سعر اليومية: <b>{Number(selectedDaily.daily_amount).toLocaleString()}</b> ج · 
-                الدفعة المدفوعة: <b>{Number(selectedDaily.prepaid_amount).toLocaleString()}</b> ج
+              <div className="text-sm bg-accent/40 p-3 rounded space-y-1">
+                <div>إجمالي اليومية: <b>{Number(selectedDaily.daily_amount).toLocaleString()}</b> ج</div>
+                <div>الدفعة المدفوعة: <b>{Number(selectedDaily.prepaid_amount).toLocaleString()}</b> ج</div>
               </div>
             )}
             <div>
-              <Label>إجمالي المبلغ المحصل</Label>
-              <Input type="number" value={totalCollected} onChange={(e) => setTotalCollected(e.target.value)} />
-            </div>
-            <div>
-              <Label>إجمالي المبلغ المرتجع</Label>
-              <Input type="number" value={totalReturns} onChange={(e) => setTotalReturns(e.target.value)} />
+              <Label>المبلغ المرتجع</Label>
+              <Input type="number" value={totalReturns} onChange={(e) => setTotalReturns(e.target.value)} placeholder="أدخل المبلغ المرتجع" />
             </div>
             {previewRemaining !== null && (
               <div className="bg-primary/10 p-3 rounded text-center">
-                <div className="text-sm text-muted-foreground">المتبقي على المندوب</div>
+                <div className="text-sm text-muted-foreground">المتبقي للتحصيل</div>
                 <div className="text-2xl font-bold">{previewRemaining.toLocaleString()} ج</div>
-                <div className="text-xs text-muted-foreground mt-1">= المحصل - الدفعة المقدمة</div>
+                <div className="text-xs text-muted-foreground mt-1">= إجمالي اليومية - المرتجع - الدفعة المقدمة</div>
               </div>
             )}
           </div>
