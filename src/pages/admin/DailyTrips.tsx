@@ -110,7 +110,7 @@ const DailyTrips = () => {
   const selectedDaily = openDailies.find((d) => d.id === selectedDailyId);
   const previewRemaining =
     selectedDaily && (totalCollected || totalReturns)
-      ? Number(totalCollected || 0) - Number(totalReturns || 0) - Number(selectedDaily.prepaid_amount || 0)
+      ? Number(totalCollected || 0) - Number(selectedDaily.prepaid_amount || 0)
       : null;
 
   return (
