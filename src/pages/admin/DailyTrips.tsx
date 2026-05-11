@@ -83,8 +83,8 @@ const DailyTrips = () => {
       if (!daily) throw new Error("اختر يومية");
       const collected = Number(totalCollected || 0);
       const returns = Number(totalReturns || 0);
-      // Remaining to collect from agent = collected - returns - prepaid
-      const remaining = collected - returns - Number(daily.prepaid_amount || 0);
+      // المتبقي على المندوب = المحصل - الدفعة المقدمة
+      const remaining = collected - Number(daily.prepaid_amount || 0);
       const { error } = await supabase
         .from("agent_dailies")
         .update({
