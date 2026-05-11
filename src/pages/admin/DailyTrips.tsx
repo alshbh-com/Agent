@@ -81,14 +81,13 @@ const DailyTrips = () => {
     mutationFn: async () => {
       const daily = openDailies.find((d) => d.id === selectedDailyId);
       if (!daily) throw new Error("اختر يومية");
-      const collected = Number(totalCollected || 0);
       const returns = Number(totalReturns || 0);
-      // المتبقي على المندوب = المحصل - الدفعة المقدمة
-      const remaining = collected - Number(daily.prepaid_amount || 0);
+      // المتبقي للتحصيل = إجمالي اليومية - المرتجع - الدفعة المقدمة
+      const remaining = Number(daily.daily_amount || 0) - returns - Number(daily.prepaid_amount || 0);
       const { error } = await supabase
         .from("agent_dailies")
         .update({
-          total_collected: collected,
+          total_collected: daily.daily_amount,
           total_returns: returns,
           remaining_amount: remaining,
           status: "closed",
@@ -99,18 +98,18 @@ const DailyTrips = () => {
       return remaining;
     },
     onSuccess: (remaining) => {
-      toast.success(`تم تقفيل اليومية. المتبقي: ${remaining} ج`);
+      toast.success(`تم تقفيل اليومية. المتبقي للتحصيل: ${remaining} ج`);
       qc.invalidateQueries({ queryKey: ["agent_dailies"] });
       setCloseOpen(false);
-      setSelectedDailyId(""); setTotalCollected(""); setTotalReturns("");
+      setSelectedDailyId(""); setTotalReturns("");
     },
     onError: (e: any) => toast.error(e.message),
   });
 
   const selectedDaily = openDailies.find((d) => d.id === selectedDailyId);
   const previewRemaining =
-    selectedDaily && (totalCollected || totalReturns)
-      ? Number(totalCollected || 0) - Number(selectedDaily.prepaid_amount || 0)
+    selectedDaily && totalReturns !== ""
+      ? Number(selectedDaily.daily_amount || 0) - Number(totalReturns || 0) - Number(selectedDaily.prepaid_amount || 0)
       : null;
 
   return (
