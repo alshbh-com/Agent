@@ -83,8 +83,8 @@ const DailyTrips = () => {
       if (!daily) throw new Error("اختر يومية");
       const collected = Number(totalCollected || 0);
       const returns = Number(totalReturns || 0);
-      // Remaining to collect from agent = collected - returns - prepaid
-      const remaining = collected - returns - Number(daily.prepaid_amount || 0);
+      // المتبقي على المندوب = المحصل - الدفعة المقدمة
+      const remaining = collected - Number(daily.prepaid_amount || 0);
       const { error } = await supabase
         .from("agent_dailies")
         .update({
@@ -110,7 +110,7 @@ const DailyTrips = () => {
   const selectedDaily = openDailies.find((d) => d.id === selectedDailyId);
   const previewRemaining =
     selectedDaily && (totalCollected || totalReturns)
-      ? Number(totalCollected || 0) - Number(totalReturns || 0) - Number(selectedDaily.prepaid_amount || 0)
+      ? Number(totalCollected || 0) - Number(selectedDaily.prepaid_amount || 0)
       : null;
 
   return (
@@ -273,7 +273,7 @@ const DailyTrips = () => {
               <div className="bg-primary/10 p-3 rounded text-center">
                 <div className="text-sm text-muted-foreground">المتبقي على المندوب</div>
                 <div className="text-2xl font-bold">{previewRemaining.toLocaleString()} ج</div>
-                <div className="text-xs text-muted-foreground mt-1">= المحصل - المرتجع - الدفعة المقدمة</div>
+                <div className="text-xs text-muted-foreground mt-1">= المحصل - الدفعة المقدمة</div>
               </div>
             )}
           </div>
