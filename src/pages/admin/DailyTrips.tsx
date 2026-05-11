@@ -30,7 +30,6 @@ const DailyTrips = () => {
 
   // Close daily form
   const [selectedDailyId, setSelectedDailyId] = useState<string>("");
-  const [totalCollected, setTotalCollected] = useState("");
   const [totalReturns, setTotalReturns] = useState("");
 
   const { data: agents } = useQuery({
@@ -81,14 +80,13 @@ const DailyTrips = () => {
     mutationFn: async () => {
       const daily = openDailies.find((d) => d.id === selectedDailyId);
       if (!daily) throw new Error("اختر يومية");
-      const collected = Number(totalCollected || 0);
       const returns = Number(totalReturns || 0);
-      // المتبقي على المندوب = المحصل - الدفعة المقدمة
-      const remaining = collected - Number(daily.prepaid_amount || 0);
+      // المتبقي للتحصيل = إجمالي اليومية - المرتجع - الدفعة المقدمة
+      const remaining = Number(daily.daily_amount || 0) - returns - Number(daily.prepaid_amount || 0);
       const { error } = await supabase
         .from("agent_dailies")
         .update({
-          total_collected: collected,
+          total_collected: daily.daily_amount,
           total_returns: returns,
           remaining_amount: remaining,
           status: "closed",
@@ -99,18 +97,18 @@ const DailyTrips = () => {
       return remaining;
     },
     onSuccess: (remaining) => {
-      toast.success(`تم تقفيل اليومية. المتبقي: ${remaining} ج`);
+      toast.success(`تم تقفيل اليومية. المتبقي للتحصيل: ${remaining} ج`);
       qc.invalidateQueries({ queryKey: ["agent_dailies"] });
       setCloseOpen(false);
-      setSelectedDailyId(""); setTotalCollected(""); setTotalReturns("");
+      setSelectedDailyId(""); setTotalReturns("");
     },
     onError: (e: any) => toast.error(e.message),
   });
 
   const selectedDaily = openDailies.find((d) => d.id === selectedDailyId);
   const previewRemaining =
-    selectedDaily && (totalCollected || totalReturns)
-      ? Number(totalCollected || 0) - Number(selectedDaily.prepaid_amount || 0)
+    selectedDaily && totalReturns !== ""
+      ? Number(selectedDaily.daily_amount || 0) - Number(totalReturns || 0) - Number(selectedDaily.prepaid_amount || 0)
       : null;
 
   return (
@@ -256,24 +254,20 @@ const DailyTrips = () => {
               </Select>
             </div>
             {selectedDaily && (
-              <div className="text-sm bg-accent/40 p-3 rounded">
-                سعر اليومية: <b>{Number(selectedDaily.daily_amount).toLocaleString()}</b> ج · 
-                الدفعة المدفوعة: <b>{Number(selectedDaily.prepaid_amount).toLocaleString()}</b> ج
+              <div className="text-sm bg-accent/40 p-3 rounded space-y-1">
+                <div>إجمالي اليومية: <b>{Number(selectedDaily.daily_amount).toLocaleString()}</b> ج</div>
+                <div>الدفعة المدفوعة: <b>{Number(selectedDaily.prepaid_amount).toLocaleString()}</b> ج</div>
               </div>
             )}
             <div>
-              <Label>إجمالي المبلغ المحصل</Label>
-              <Input type="number" value={totalCollected} onChange={(e) => setTotalCollected(e.target.value)} />
-            </div>
-            <div>
-              <Label>إجمالي المبلغ المرتجع</Label>
-              <Input type="number" value={totalReturns} onChange={(e) => setTotalReturns(e.target.value)} />
+              <Label>المبلغ المرتجع</Label>
+              <Input type="number" value={totalReturns} onChange={(e) => setTotalReturns(e.target.value)} placeholder="أدخل المبلغ المرتجع" />
             </div>
             {previewRemaining !== null && (
               <div className="bg-primary/10 p-3 rounded text-center">
-                <div className="text-sm text-muted-foreground">المتبقي على المندوب</div>
+                <div className="text-sm text-muted-foreground">المتبقي للتحصيل</div>
                 <div className="text-2xl font-bold">{previewRemaining.toLocaleString()} ج</div>
-                <div className="text-xs text-muted-foreground mt-1">= المحصل - الدفعة المقدمة</div>
+                <div className="text-xs text-muted-foreground mt-1">= إجمالي اليومية - المرتجع - الدفعة المقدمة</div>
               </div>
             )}
           </div>
