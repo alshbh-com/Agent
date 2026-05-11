@@ -273,7 +273,7 @@ const DailyTrips = () => {
               <div className="bg-primary/10 p-3 rounded text-center">
                 <div className="text-sm text-muted-foreground">المتبقي على المندوب</div>
                 <div className="text-2xl font-bold">{previewRemaining.toLocaleString()} ج</div>
-                <div className="text-xs text-muted-foreground mt-1">= المحصل - المرتجع - الدفعة المقدمة</div>
+                <div className="text-xs text-muted-foreground mt-1">= المحصل - الدفعة المقدمة</div>
               </div>
             )}
           </div>
