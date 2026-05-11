@@ -16,7 +16,8 @@ import {
   Wallet,
   LogOut,
   Palette,
-  Building2
+  Building2,
+  CalendarDays
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import SearchBar from "@/components/admin/SearchBar";
